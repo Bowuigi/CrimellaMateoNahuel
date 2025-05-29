@@ -1,0 +1,16 @@
+[private]
+default:
+	just --list
+
+# Serve the entire website, reloading it as it changes.
+serve:
+	darkhttpd . --header 'Cache-Control: no-store' --header 'Referrer-Policy: no-referrer-when-downgrade' --header 'Cross-Origin-Opener-Policy: same-origin-allow-popups' # , same-origin
+
+# Run abduco sessions for automated setup
+sessions:
+	abduco -n serve just serve
+
+# Stop automation
+kill-sessions:
+	pkill -SIGINT darkhttpd
+	abduco -a serve

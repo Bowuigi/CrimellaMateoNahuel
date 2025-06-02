@@ -73,9 +73,10 @@ type DiceThrows = {
 }
 */
 
+// :: DiceThrows
 const noDiceThrows = {throws: [], highestThrow: {index: null, sum: 0}};
 
-// :: DiceThrows -> Effect [Random] DiceThrows
+// :: DiceThrows -> Effect [Random, Mutates diceThrows] ()
 function throwDice(diceThrows) {
 	// Not super uniform nor cryptography-ready but good enough here
 	const throwDie = () => Math.round(Math.random() * 5) + 1;
@@ -83,18 +84,38 @@ function throwDice(diceThrows) {
 	const pair = {first: throwDie(), second: throwDie()};
 	const sum = pair.first + pair.second;
 
-	return {
-		throws: [...diceThrows.throws, pair],
-		highestThrow: (diceThrows.highestThrow.sum > sum)
-		                ? diceThrows.highestThrow
-		                : {sum, index: diceThrows.throws.length}
-	};
+	if (diceThrows.highestThrow.sum <= sum) {
+		diceThrows.highestThrow = {sum, index: diceThrows.throws.length};
+	}
+
+	diceThrows.throws.push(pair);
 }
 
 // :: (HTMLDivElement, DiceThrows) -> Effect [DOM] Unit
 function fillWithDiceThrowsData(container, diceThrows) {
 	// ...
 }
+
+// diceA, diceB :: DiceThrows
+let diceA = structuredClone(noDiceThrows);
+let diceB = structuredClone(noDiceThrows);
+
+// throwDiceA :: () -> Effect [MutatesGlobal diceA, DOM] ()
+// throwDiceB :: () -> Effect [MutatesGlobal diceB, DOM] ()
+const [throwDiceA,throwDiceB] = ((...args) =>
+	args.map(({containerID, dice}) => {
+		const container = document.getElementById(containerID);
+		return () => {
+			// JS has pass-by-value semantics only on the first layer of a structure
+			// This mutates diceA or diceB depending on the argument
+			throwDice(dice);
+			fillWithDiceThrowsData(container, dice);
+		}
+	})
+)(
+	{containerID: 'dice-team-a', dice: diceA},
+	{containerID: 'dice-team-b', dice: diceB}
+);
 
 /*====== Battle
 // One can leverage Javascript's structural typing to allow battles between `PokemonTeam`s and `Pokemon`s
@@ -139,5 +160,12 @@ function battle(teamA, teamB, diceA, diceB) {
 
 // :: (HTMLDivElement, Battle) -> Effect [DOM] Unit
 function fillWithBattleData(container, battle) {
+	// ...
+}
+
+// teamA, teamB, diceA and diceB should have been modified by the time this function is called
+// It shouldn't break anyway, the default values are valid
+// :: () -> Effect [DOM] Unit
+function play() {
 	// ...
 }

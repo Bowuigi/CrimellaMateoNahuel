@@ -11,7 +11,7 @@
     <div id="teams-container">
       <div class="pokemon-team" id="team-a">
         <div class="pokemon">
-          <img class="pokemon-image" src="/img/unknown.svg"/>
+          <img src="/img/unknown.svg"/>
           <dl>
             <dt>Nombre</dt>
             <dd class="pokemon-name">???</dd>
@@ -22,7 +22,7 @@
           </dl>
         </div>
         <div class="pokemon">
-          <img class="pokemon-image" src="/img/unknown.svg"/>
+          <img src="/img/unknown.svg"/>
           <dl>
             <dt>Nombre</dt>
             <dd class="pokemon-name">???</dd>
@@ -33,7 +33,7 @@
           </dl>
         </div>
         <div class="pokemon">
-          <img class="pokemon-image" src="/img/unknown.svg"/>
+          <img src="/img/unknown.svg"/>
           <dl>
             <dt>Nombre</dt>
             <dd class="pokemon-name">???</dd>
@@ -41,12 +41,23 @@
             <dd class="pokemon-attack">0</dd>
             <dt>Defensa</dt>
             <dd class="pokemon-defense">0</dd>
+          </dl>
+        </div>
+        <div class="dice" id="dice-team-a">
+          <button onclick="throwDiceA();" type="button">Tirar dados</button>
+          <dl>
+            <dt>Tirada 1</dt>
+            <dd class="throw-1">--</dd>
+            <dt>Tirada 2</dt>
+            <dd class="throw-2">--</dd>
+            <dt>Tirada 3</dt>
+            <dd class="throw-3">--</dd>
           </dl>
         </div>
       </div>
       <div class="pokemon-team" id="team-b">
         <div class="pokemon">
-          <img class="pokemon-image" src="/img/unknown.svg"/>
+          <img src="/img/unknown.svg"/>
           <dl>
             <dt>Nombre</dt>
             <dd class="pokemon-name">???</dd>
@@ -57,7 +68,7 @@
           </dl>
         </div>
         <div class="pokemon">
-          <img class="pokemon-image" src="/img/unknown.svg"/>
+          <img src="/img/unknown.svg"/>
           <dl>
             <dt>Nombre</dt>
             <dd class="pokemon-name">???</dd>
@@ -68,7 +79,7 @@
           </dl>
         </div>
         <div class="pokemon">
-          <img class="pokemon-image" src="/img/unknown.svg"/>
+          <img src="/img/unknown.svg"/>
           <dl>
             <dt>Nombre</dt>
             <dd class="pokemon-name">???</dd>
@@ -76,10 +87,23 @@
             <dd class="pokemon-attack">0</dd>
             <dt>Defensa</dt>
             <dd class="pokemon-defense">0</dd>
+          </dl>
+        </div>
+        <div class="dice" id="dice-team-b">
+          <button onclick="throwDiceB();" type="button">Tirar dados</button>
+          <dl>
+            <dt>Tirada 1</dt>
+            <dd class="throw-1">--</dd>
+            <dt>Tirada 2</dt>
+            <dd class="throw-2">--</dd>
+            <dt>Tirada 3</dt>
+            <dd class="throw-3">--</dd>
           </dl>
         </div>
       </div>
     </div>
+    <button id="play-button" disabled onclick="play();" type="button">¡Pelea!</button>
+    <p style="display: none;">Empate.</p>
     <script src="js/main.js"></script>
   </body>
 </html>

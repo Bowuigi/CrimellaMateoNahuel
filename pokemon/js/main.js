@@ -29,25 +29,27 @@ async function fetchPokemonData(id) {
 	return {id, name, attack, defense, spriteURL};
 }
 
-// :: (HTMLDivElement, Pokemon) -> Effect [DOM] Unit
+// :: (HTMLDivElement, Pokemon) -> Effect [DOM, Network] Unit
 function fillWithPokemonData(container, pokemon) {
-	const containerElement = container;
 	const imageElement = container.getElementsByTagName("img")[0];
+	const list = container.getElementsByTagName("dl")[0];
 
 	imageElement.src = pokemon.spriteURL;
-	// ...
+	list.getElementsByClassName("pokemon-name")[0].textContent = pokemon.name;
+	list.getElementsByClassName("pokemon-attack")[0].textContent = pokemon.attack;
+	list.getElementsByClassName("pokemon-defense")[0].textContent = pokemon.defense;
 }
 
 /*====== PokemonTeam
 type PokemonTeam = {
 	team : Array Pokemon,
-	attack : Number
-	defense : Number,
+	attack : Number,
+	defense : Number
 }
 */
 
 // :: Array Pokemon -> EffectfulPromise [Network] PokemonTeam
-async function fetchTeamData(pokemonIDs) {
+async function fetchPokemonTeamData(pokemonIDs) {
 	let team = [];
 	for (let id of pokemonIDs) {
 		team.push(await fetchPokemonData(id));
@@ -61,20 +63,31 @@ async function fetchTeamData(pokemonIDs) {
 	return {team, attack, defense};
 }
 
-// :: (HTMLDivElement, PokemonTeam) -> Effect [DOM] Unit
+// :: (HTMLDivElement, PokemonTeam) -> Effect [DOM, Network] Unit
 function fillWithPokemonTeamData(container, pokemonTeam) {
-	// ...
+	const pokemon = container.getElementsByClassName("pokemon");
+	const list = container.getElementsByClassName("team-stats")[0];
+
+	for (let i = 0; i < pokemon.length; i++) {
+		fillWithPokemonData(pokemon[i], pokemonTeam.team[i]);
+	}
+	list.getElementsByClassName("team-attack")[0].textContent = pokemonTeam.attack;
+	list.getElementsByClassName("team-defense")[0].textContent = pokemonTeam.defense;
 }
+
+// teamA, teamB :: PokemonTeam
+let teamA = {team: [], attack: 0, defense: 0};
+let teamB = {team: [], attack: 0, defense: 0};
 
 /*====== DiceThrows
 type DiceThrows = {
 	throws : Array {first : Number, second : Number},
-	highestThrow : {index : Number, sum : Number}
+	highestThrow : {sum : Number, first : Number, second : Number}
 }
 */
 
 // :: DiceThrows
-const noDiceThrows = {throws: [], highestThrow: {index: null, sum: 0}};
+const noDiceThrows = {throws: [], highestThrow: {first: 0, second: 0, sum: 0}};
 
 // :: DiceThrows -> Effect [Random, Mutates diceThrows] ()
 function throwDice(diceThrows) {
@@ -85,7 +98,7 @@ function throwDice(diceThrows) {
 	const sum = pair.first + pair.second;
 
 	if (diceThrows.highestThrow.sum <= sum) {
-		diceThrows.highestThrow = {sum, index: diceThrows.throws.length};
+		diceThrows.highestThrow = {sum, ...pair};
 	}
 
 	diceThrows.throws.push(pair);
@@ -93,7 +106,24 @@ function throwDice(diceThrows) {
 
 // :: (HTMLDivElement, DiceThrows) -> Effect [DOM] Unit
 function fillWithDiceThrowsData(container, diceThrows) {
-	// ...
+	const list = container.getElementsByTagName("dl")[0];
+
+	if (diceThrows.throws.length >= 3) {
+		container.getElementsByTagName("button")[0].disabled = true;
+	}
+
+	for (let i = 0; i < 3; i++) {
+		const class_ = `throw-${i+1}`;
+		const item = list.getElementsByClassName(class_)[0];
+		const pair = diceThrows.throws[i];
+
+		if (pair === undefined) break;
+
+		item.textContent = `${pair.first}, ${pair.second}`;
+	}
+	
+	list.getElementsByClassName("throw-max")[0].textContent =
+		`${diceThrows.highestThrow.first}, ${diceThrows.highestThrow.second} (suman ${diceThrows.highestThrow.sum})`;
 }
 
 // diceA, diceB :: DiceThrows
@@ -163,9 +193,24 @@ function fillWithBattleData(container, battle) {
 	// ...
 }
 
+/*====== Wiring ======*/
+
 // teamA, teamB, diceA and diceB should have been modified by the time this function is called
 // It shouldn't break anyway, the default values are valid
 // :: () -> Effect [DOM] Unit
 function play() {
 	// ...
 }
+
+// :: () -> EffectfulPromise [Network, Random, DOM, MutatesGlobal teamA, MutatesGlobal teamB] ()
+async function init() {
+	// Not super uniform nor cryptography-ready but good enough here
+	const randomPokemon = () => Math.round(Math.random() * 1024) + 1; // 1-1025
+
+	teamA = await fetchPokemonTeamData([randomPokemon(), randomPokemon(), randomPokemon()]);
+	teamB = await fetchPokemonTeamData([randomPokemon(), randomPokemon(), randomPokemon()]);
+
+	fillWithPokemonTeamData(document.getElementById("team-a"), teamA);
+	fillWithPokemonTeamData(document.getElementById("team-b"), teamB);
+}
+init();

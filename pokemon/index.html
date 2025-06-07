@@ -119,7 +119,16 @@
       </div>
     </div>
     <button id="play-button" disabled onclick="play();" type="button">¡Pelea!</button>
-    <p style="display: none;">Empate.</p>
+    <dl id="battle-stats" style="display: none;">
+      <dt>Resultado</dt>
+      <dd id="battle-result">Empate<dd>
+      <dt>Razón</dt>
+      <dd id="battle-result-reason">No se peleó</dd>
+      <dt>Daño realizado por el equipo A</dt>
+      <dd id="battle-team-a-damage">0<dd>
+      <dt>Daño realizado por el equipo B</dt>
+      <dd id="battle-team-b-damage">0<dd>
+    </dl>
     <script src="js/main.js"></script>
   </body>
 </html>

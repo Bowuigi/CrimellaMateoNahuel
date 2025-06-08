@@ -13,7 +13,7 @@ async function fetchPokemonData(id) {
 	let name = "???";
 	let attack = 0;
 	let defense = 0;
-	let spriteURL = "/img/unknown.svg";
+	let spriteURL = "img/unknown.svg";
 
 	const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
 
@@ -23,7 +23,7 @@ async function fetchPokemonData(id) {
 		name = json.name || "???";
 		attack = json.stats.find(x => x.stat.name == 'attack')?.base_stat || 0;
 		defense = json.stats.find(x => x.stat.name == 'defense')?.base_stat || 0;
-		spriteURL = json.sprites.front_default || "/img/unknown.svg";
+		spriteURL = json.sprites.front_default || "img/unknown.svg";
 	} // On failure we keep the default values
 
 	return {id, name, attack, defense, spriteURL};
@@ -122,8 +122,8 @@ function fillWithDiceThrowsData(container, diceThrows) {
 		item.textContent = `${pair.first}, ${pair.second}`;
 	}
 	
-	list.getElementsByClassName("throw-max")[0].textContent =
-		`${diceThrows.highestThrow.first}, ${diceThrows.highestThrow.second} (suman ${diceThrows.highestThrow.sum}, ${diceThrows.highestThrow.index+1}° tirada)`;
+	list.getElementsByClassName("throw-max")[0].innerHTML =
+		`${diceThrows.highestThrow.first}, ${diceThrows.highestThrow.second}<br/>Suman ${diceThrows.highestThrow.sum}<br/>${diceThrows.highestThrow.index+1}° tirada`;
 }
 
 // diceA, diceB :: DiceThrows

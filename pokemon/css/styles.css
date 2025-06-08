@@ -1,0 +1,52 @@
+.pokemon-team {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    justify-items: center;
+}
+
+.pokemon {
+    width: fit-content;
+    height: fit-content;
+}
+
+.pokemon img {
+    width: 8rem;
+    height: 8rem;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+
+dt {
+    border: 1px solid black;
+    text-align: center;
+    padding: 0.2rem;
+    border-radius: 0.6rem 0.6rem 0 0;
+    background-color: #88000A;
+    color: white;
+}
+
+dd {
+    margin: 0;
+    text-align: center;
+    border: 1px solid black;
+    border-top: 0;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 0 0 0.6rem 0.6rem;
+    background-color: white;
+    color: black;
+}
+
+dl {
+}
+
+#teams-container {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+

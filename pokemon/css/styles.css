@@ -20,10 +20,9 @@
 dt {
     border: 1px solid black;
     text-align: center;
-    padding: 0.2rem;
+    padding: 0.3rem;
     border-radius: 0.6rem 0.6rem 0 0;
-    background-color: #88000A;
-    color: white;
+    box-shadow: inset 0px 0px 11px -1px white;
 }
 
 dd {
@@ -38,9 +37,6 @@ dd {
     color: black;
 }
 
-dl {
-}
-
 #teams-container {
     display: flex;
     flex-direction: row;
@@ -50,3 +46,29 @@ dl {
     flex-wrap: wrap;
 }
 
+
+
+dt.throw {
+    background-color: #8ADF8E;
+    color: black;
+}
+
+dt.attack {
+    background-color: #CD1041;
+    color: white;
+}
+
+dt.name {
+    background-color: #E6BD31;
+    color: black;
+}
+
+dt.defense {
+    background-color: #2E52D7;
+    color: white;
+}
+
+dt.throw-max-label {
+    background-color: #868FA8;
+    color: black;
+}

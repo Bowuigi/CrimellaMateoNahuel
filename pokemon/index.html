@@ -10,6 +10,7 @@
   <body>
     <div id="teams-container">
       <div class="pokemon-team" id="team-a">
+        <p class="team-label">Equipo A</p>
         <div class="pokemon">
           <img src="img/unknown.svg"/>
           <dl>
@@ -43,7 +44,6 @@
             <dd class="pokemon-defense">0</dd>
           </dl>
         </div>
-        <p>Equipo A</p>
         <dl class="team-stats">
           <dt class="attack">Ataque acumulado</dt>
           <dd class="team-attack">0</dd>
@@ -65,6 +65,7 @@
         </div>
       </div>
       <div class="pokemon-team" id="team-b">
+        <p class="team-label">Equipo B</p>
         <div class="pokemon">
           <img src="img/unknown.svg"/>
           <dl>
@@ -117,20 +118,19 @@
           <dt class="defense">Defensa acumulada</dt>
           <dd class="team-defense">0</dd>
         </dl>
-        <p>Equipo B</p>
       </div>
     </div>
     <div id="battle-results-container">
       <button id="play-button" disabled onclick="play();" type="button">¡Pelea!</button>
       <dl id="battle-stats" style="display: none;">
         <dt>Resultado</dt>
-        <dd id="battle-result">Empate<dd>
+        <dd id="battle-result">Empate</dd>
         <dt>Razón</dt>
         <dd id="battle-result-reason">No se peleó</dd>
         <dt>Daño realizado por el equipo A</dt>
-        <dd id="battle-team-a-damage">0<dd>
+        <dd id="battle-team-a-damage">0</dd>
         <dt>Daño realizado por el equipo B</dt>
-        <dd id="battle-team-b-damage">0<dd>
+        <dd id="battle-team-b-damage">0</dd>
       </dl>
     </div>
     <script src="js/main.js"></script>
